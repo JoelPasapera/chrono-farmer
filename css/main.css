@@ -1,0 +1,826 @@
+/* ========================================
+   CHRONO FARMER - ESTILOS PRINCIPALES
+   ======================================== */
+
+/* ========================================
+   1. RESET Y VARIABLES
+   ======================================== */
+
+/* Reset básico */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Variables CSS - Tema principal */
+:root {
+    /* Colores principales */
+    --color-primary: #2c5530;
+    --color-primary-dark: #1a3a1e;
+    --color-primary-light: #4a7c59;
+    --color-secondary: #8b4513;
+    --color-accent: #ffd700;
+    --color-accent-dark: #b8860b;
+    
+    /* Colores de fondo */
+    --bg-primary: #0d1117;
+    --bg-secondary: #161b22;
+    --bg-tertiary: #21262d;
+    --bg-overlay: rgba(13, 17, 23, 0.9);
+    
+    /* Colores de texto */
+    --text-primary: #e6edf3;
+    --text-secondary: #8b949e;
+    --text-accent: #ffd700;
+    --text-muted: #484f58;
+    
+    /* Estados */
+    --state-success: #3fb950;
+    --state-warning: #d29922;
+    --state-error: #f85149;
+    --state-info: #58a6ff;
+    
+    /* Tamaños */
+    --size-xs: 0.25rem;
+    --size-sm: 0.5rem;
+    --size-md: 1rem;
+    --size-lg: 1.5rem;
+    --size-xl: 2rem;
+    --size-xxl: 3rem;
+    
+    /* Bordes */
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 24px;
+    
+    /* Sombras */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(255, 215, 0, 0.3);
+    
+    /* Transiciones */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Tipografía */
+    --font-primary: 'Nunito', sans-serif;
+    --font-display: 'Orbitron', monospace;
+    
+    /* Layout */
+    --header-height: 60px;
+    --sidebar-width: 280px;
+    --max-content-width: 1200px;
+}
+
+/* ========================================
+   2. ESTILOS BASE
+   ======================================== */
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-primary);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Evitar selección de elementos del juego */
+.game-container * {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+/* ========================================
+   3. UTILIDADES
+   ======================================== */
+
+.hidden {
+    display: none !important;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-accent {
+    color: var(--text-accent);
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+.mt-auto { margin-top: auto; }
+.mr-auto { margin-right: auto; }
+.mb-auto { margin-bottom: auto; }
+.ml-auto { margin-left: auto; }
+
+/* ========================================
+   4. CONTENEDOR PRINCIPAL
+   ======================================== */
+
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+}
+
+/* ========================================
+   5. PANTALLA DE CARGA
+   ======================================== */
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity var(--transition-slow), visibility var(--transition-slow);
+}
+
+.loading-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loading-screen__content {
+    text-align: center;
+    max-width: 400px;
+}
+
+.loading-screen__title {
+    font-family: var(--font-display);
+    font-size: var(--size-xxl);
+    font-weight: 900;
+    color: var(--text-accent);
+    margin-bottom: var(--size-sm);
+    text-shadow: var(--shadow-glow);
+}
+
+.loading-screen__subtitle {
+    font-size: var(--size-lg);
+    color: var(--text-secondary);
+    margin-bottom: var(--size-xl);
+}
+
+.loading-screen__progress {
+    width: 100%;
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    margin-bottom: var(--size-md);
+}
+
+.loading-screen__bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark));
+    width: 0%;
+    transition: width var(--transition-normal);
+}
+
+.loading-screen__text {
+    color: var(--text-secondary);
+    font-size: var(--size-sm);
+}
+
+/* ========================================
+   6. MENÚ PRINCIPAL
+   ======================================== */
+
+.main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.main-menu.hidden {
+    display: none;
+}
+
+.main-menu__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(44, 85, 48, 0.2) 0%, transparent 40%),
+        linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    z-index: -1;
+}
+
+.main-menu__content {
+    text-align: center;
+    z-index: 1;
+    padding: var(--size-xl);
+}
+
+.main-menu__header {
+    margin-bottom: var(--size-xxl);
+}
+
+.main-menu__title {
+    font-family: var(--font-display);
+    font-size: clamp(var(--size-xl), 8vw, var(--size-xxl) * 2);
+    font-weight: 900;
+    color: var(--text-accent);
+    margin-bottom: var(--size-sm);
+    text-shadow: var(--shadow-glow);
+    letter-spacing: 2px;
+}
+
+.main-menu__tagline {
+    font-size: var(--size-lg);
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+.main-menu__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-md);
+    align-items: center;
+}
+
+.main-menu__btn {
+    font-family: var(--font-primary);
+    font-size: var(--size-md);
+    font-weight: 600;
+    padding: var(--size-md) var(--size-xl);
+    min-width: 200px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-menu__btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.main-menu__btn--primary {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
+    color: white;
+}
+
+.main-menu__btn--primary:hover {
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+}
+
+/* ========================================
+   7. INTERFAZ DEL JUEGO
+   ======================================== */
+
+.game-ui {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-areas: 
+        "resources resources resources"
+        "farm farm sidebar"
+        "farm farm sidebar";
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-columns: 1fr 1fr var(--sidebar-width);
+    gap: var(--size-md);
+    padding: var(--size-md);
+}
+
+.game-ui.hidden {
+    display: none;
+}
+
+/* ========================================
+   8. BARRA DE RECURSOS
+   ======================================== */
+
+.resources-bar {
+    grid-area: resources;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--size-sm) var(--size-md);
+    box-shadow: var(--shadow-md);
+}
+
+.resources-bar__item {
+    display: flex;
+    align-items: center;
+    gap: var(--size-sm);
+}
+
+.resources-bar__icon {
+    font-size: var(--size-lg);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-sm);
+    background: var(--bg-tertiary);
+}
+
+.resources-bar__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--text-accent);
+    font-size: var(--size-md);
+}
+
+.resources-bar__menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: var(--size-lg);
+    cursor: pointer;
+    padding: var(--size-sm);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.resources-bar__menu-btn:hover {
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+}
+
+/* ========================================
+   9. ÁREA DE JUEGO PRINCIPAL
+   ======================================== */
+
+.game-area {
+    grid-area: farm;
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-md);
+    position: relative;
+}
+
+/* Área de la granja */
+.farm-area {
+    flex: 1;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--size-md);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.farm-area::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 30% 70%, rgba(255, 215, 0, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 70% 30%, rgba(44, 85, 48, 0.1) 0%, transparent 40%);
+    pointer-events: none;
+}
+
+.farm-area__grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: var(--size-sm);
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Portal temporal */
+.time-portal {
+    position: absolute;
+    bottom: var(--size-md);
+    right: var(--size-md);
+    z-index: 10;
+}
+
+.time-portal__visual {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    margin-bottom: var(--size-sm);
+}
+
+.time-portal__ring {
+    position: absolute;
+    border: 3px solid var(--color-accent);
+    border-radius: 50%;
+    animation: portalRotate 4s linear infinite;
+}
+
+.time-portal__ring:nth-child(1) {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    animation-duration: 4s;
+}
+
+.time-portal__ring:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+    left: 15%;
+    animation-duration: 3s;
+    animation-direction: reverse;
+}
+
+.time-portal__core {
+    position: absolute;
+    width: 40%;
+    height: 40%;
+    top: 30%;
+    left: 30%;
+    background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: portalPulse 2s ease-in-out infinite;
+}
+
+.time-portal__activate {
+    width: 100%;
+    padding: var(--size-sm) var(--size-md);
+    background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+    color: var(--bg-primary);
+    border: none;
+    border-radius: var(--border-radius-lg);
+    font-family: var(--font-primary);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-glow);
+}
+
+.time-portal__activate:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+/* ========================================
+   10. PANEL DE HERRAMIENTAS
+   ======================================== */
+
+.tools-panel {
+    grid-area: sidebar;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--size-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-lg);
+    overflow-y: auto;
+}
+
+.tools-panel__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-sm);
+}
+
+.tools-panel__title {
+    font-family: var(--font-display);
+    font-size: var(--size-md);
+    color: var(--text-accent);
+    margin-bottom: var(--size-sm);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.tools-panel__tools {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--size-sm);
+}
+
+.tool-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--size-xs);
+    padding: var(--size-md);
+    background: var(--bg-tertiary);
+    border: 2px solid transparent;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+}
+
+.tool-btn:hover {
+    border-color: var(--color-primary-light);
+    color: var(--text-primary);
+}
+
+.tool-btn--active {
+    border-color: var(--color-accent);
+    background: rgba(255, 215, 0, 0.1);
+    color: var(--text-accent);
+}
+
+.tool-btn__icon {
+    font-size: var(--size-xl);
+}
+
+.tool-btn__label {
+    font-size: var(--size-sm);
+    font-weight: 600;
+}
+
+.tools-panel__seeds {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--size-sm);
+}
+
+/* ========================================
+   11. MODALES
+   ======================================== */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modal__content {
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-xl);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    animation: modalSlideIn var(--transition-normal);
+}
+
+.modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--size-md) var(--size-lg);
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal__title {
+    font-family: var(--font-display);
+    font-size: var(--size-xl);
+    color: var(--text-accent);
+}
+
+.modal__close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: var(--size-xl);
+    cursor: pointer;
+    padding: var(--size-xs);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+    line-height: 1;
+}
+
+.modal__close:hover {
+    color: var(--state-error);
+    background: rgba(248, 81, 73, 0.1);
+}
+
+.modal__body {
+    padding: var(--size-lg);
+    overflow-y: auto;
+    max-height: calc(90vh - 120px);
+}
+
+/* ========================================
+   12. SELECTOR DE ERAS
+   ======================================== */
+
+.era-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--size-md);
+}
+
+.era-card {
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: var(--size-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    border: 2px solid transparent;
+    text-align: center;
+}
+
+.era-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+}
+
+.era-card__icon {
+    font-size: var(--size-xxl);
+    margin-bottom: var(--size-sm);
+}
+
+.era-card__name {
+    font-family: var(--font-display);
+    font-size: var(--size-lg);
+    color: var(--text-primary);
+    margin-bottom: var(--size-xs);
+}
+
+.era-card__description {
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+}
+
+/* ========================================
+   13. AJUSTES
+   ======================================== */
+
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--size-lg);
+}
+
+.settings-group__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--size-md);
+    font-size: var(--size-md);
+    color: var(--text-primary);
+}
+
+.settings-group__slider {
+    width: 200px;
+    height: 6px;
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius-sm);
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.settings-group__slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+.settings-group__slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: var(--shadow-sm);
+}
+
+.settings-group__checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--color-accent);
+}
+
+/* ========================================
+   14. RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1024px) {
+    .game-ui {
+        grid-template-areas: 
+            "resources resources"
+            "farm farm"
+            "sidebar sidebar";
+        grid-template-rows: var(--header-height) 1fr auto;
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .tools-panel {
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    
+    .tools-panel__section {
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .game-ui {
+        padding: var(--size-sm);
+        gap: var(--size-sm);
+    }
+    
+    .main-menu__btn {
+        min-width: 160px;
+        padding: var(--size-sm) var(--size-lg);
+    }
+    
+    .resources-bar {
+        padding: var(--size-xs) var(--size-sm);
+    }
+    
+    .resources-bar__value {
+        font-size: var(--size-sm);
+    }
+    
+    .modal__content {
+        max-width: 95vw;
+    }
+    
+    .era-selector {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .farm-area__grid {
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    
+    .tools-panel__tools {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .tools-panel__seeds {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}

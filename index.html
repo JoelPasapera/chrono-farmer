@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrono Farmer: El Jardín de los Tiempos</title>
+    <meta name="description" content="Cultiva el pasado, cosecha el futuro. Juego de agricultura temporal.">
+
+    <!-- Fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Nunito:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+    <!-- Precargar recursos críticos -->
+    <link rel="preload" href="js/core/GameEngine.js" as="script">
+</head>
+
+<body>
+    <!-- Contenedor principal del juego -->
+    <div id="game-container" class="game-container">
+
+        <!-- Pantalla de carga -->
+        <div id="loading-screen" class="loading-screen">
+            <div class="loading-screen__content">
+                <div class="loading-screen__logo">
+                    <h1 class="loading-screen__title">Chrono Farmer</h1>
+                    <p class="loading-screen__subtitle">El Jardín de los Tiempos</p>
+                </div>
+                <div class="loading-screen__progress">
+                    <div class="loading-screen__bar"></div>
+                </div>
+                <p class="loading-screen__text">Cargando el flujo temporal...</p>
+            </div>
+        </div>
+
+        <!-- Pantalla del menú principal -->
+        <div id="main-menu" class="main-menu hidden">
+            <div class="main-menu__background"></div>
+            <div class="main-menu__content">
+                <header class="main-menu__header">
+                    <h1 class="main-menu__title">Chrono Farmer</h1>
+                    <p class="main-menu__tagline">Cultiva el pasado, cosecha el futuro</p>
+                </header>
+
+                <nav class="main-menu__nav">
+                    <button class="main-menu__btn main-menu__btn--primary" data-action="new-game">
+                        Nueva Partida
+                    </button>
+                    <button class="main-menu__btn" data-action="continue">
+                        Continuar
+                    </button>
+                    <button class="main-menu__btn" data-action="settings">
+                        Configuración
+                    </button>
+                    <button class="main-menu__btn" data-action="credits">
+                        Créditos
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Interfaz del juego principal -->
+        <div id="game-ui" class="game-ui hidden">
+
+            <!-- Barra superior de recursos -->
+            <header class="resources-bar">
+                <div class="resources-bar__item">
+                    <span class="resources-bar__icon resources-bar__icon--temporal-pulses">⚡</span>
+                    <span class="resources-bar__value" data-resource="temporal-pulses">0</span>
+                </div>
+                <div class="resources-bar__item">
+                    <span class="resources-bar__icon resources-bar__icon--seeds">🌱</span>
+                    <span class="resources-bar__value" data-resource="seeds">0</span>
+                </div>
+                <div class="resources-bar__item">
+                    <span class="resources-bar__icon resources-bar__icon--era">⏰</span>
+                    <span class="resources-bar__value" data-era="current">Era Primigenia</span>
+                </div>
+                <div class="resources-bar__item">
+                    <button class="resources-bar__menu-btn" data-action="menu">☰</button>
+                </div>
+            </header>
+
+            <!-- Área principal del juego -->
+            <main class="game-area">
+                <!-- Granja/jardín -->
+                <div id="farm-area" class="farm-area">
+                    <div class="farm-area__grid" id="farm-grid">
+                        <!-- Las celdas de la granja se generarán dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Portal temporal -->
+                <div id="time-portal" class="time-portal">
+                    <div class="time-portal__visual">
+                        <div class="time-portal__ring"></div>
+                        <div class="time-portal__ring"></div>
+                        <div class="time-portal__core"></div>
+                    </div>
+                    <button class="time-portal__activate" data-action="activate-portal">
+                        Viajar en el Tiempo
+                    </button>
+                </div>
+            </main>
+
+            <!-- Panel lateral de herramientas -->
+            <aside class="tools-panel">
+                <div class="tools-panel__section">
+                    <h3 class="tools-panel__title">Herramientas</h3>
+                    <div class="tools-panel__tools">
+                        <button class="tool-btn tool-btn--active" data-tool="plant">
+                            <span class="tool-btn__icon">🌱</span>
+                            <span class="tool-btn__label">Plantar</span>
+                        </button>
+                        <button class="tool-btn" data-tool="water">
+                            <span class="tool-btn__icon">💧</span>
+                            <span class="tool-btn__label">Regar</span>
+                        </button>
+                        <button class="tool-btn" data-tool="harvest">
+                            <span class="tool-btn__icon">🌾</span>
+                            <span class="tool-btn__label">Cosechar</span>
+                        </button>
+                        <button class="tool-btn" data-tool="accelerate">
+                            <span class="tool-btn__icon">⚡</span>
+                            <span class="tool-btn__label">Acelerar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="tools-panel__section">
+                    <h3 class="tools-panel__title">Semillas</h3>
+                    <div class="tools-panel__seeds" id="seeds-inventory">
+                        <!-- Las semillas disponibles se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        <!-- Modal de viaje temporal -->
+        <div id="time-travel-modal" class="modal hidden">
+            <div class="modal__overlay"></div>
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h2 class="modal__title">Viajar en el Tiempo</h2>
+                    <button class="modal__close" data-action="close-modal">×</button>
+                </div>
+                <div class="modal__body">
+                    <div class="era-selector">
+                        <!-- Las eras disponibles se cargarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de configuración -->
+        <div id="settings-modal" class="modal hidden">
+            <div class="modal__overlay"></div>
+            <div class="modal__content">
+                <div class="modal__header">
+                    <h2 class="modal__title">Configuración</h2>
+                    <button class="modal__close" data-action="close-modal">×</button>
+                </div>
+                <div class="modal__body">
+                    <div class="settings-group">
+                        <label class="settings-group__label">
+                            <span>Música</span>
+                            <input type="range" class="settings-group__slider" data-setting="music-volume" min="0"
+                                max="100" value="70">
+                        </label>
+                        <label class="settings-group__label">
+                            <span>Efectos de sonido</span>
+                            <input type="range" class="settings-group__slider" data-setting="sfx-volume" min="0"
+                                max="100" value="80">
+                        </label>
+                        <label class="settings-group__label">
+                            <span>Modo relax</span>
+                            <input type="checkbox" class="settings-group__checkbox" data-setting="relax-mode">
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts del juego -->
+    <!-- Core -->
+    <script src="js/core/GameEngine.js"></script>
+    <script src="js/core/StateManager.js"></script>
+    <script src="js/core/EventBus.js"></script>
+    <script src="js/core/DOMRenderer.js"></script>
+    <script src="js/core/AudioManager.js"></script>
+    <script src="js/core/SaveSystem.js"></script>
+
+    <!-- Systems -->
+    <script src="js/systems/TimeSystem.js"></script>
+    <script src="js/systems/PlantSystem.js"></script>
+    <script src="js/systems/AnimalSystem.js"></script>
+    <script src="js/systems/TimeTravelSystem.js"></script>
+    <script src="js/systems/ResourceSystem.js"></script>
+    <script src="js/systems/WeatherSystem.js"></script>
+    <script src="js/systems/AchievementSystem.js"></script>
+
+    <!-- Components -->
+    <script src="js/components/Plant.js"></script>
+    <script src="js/components/Animal.js"></script>
+    <script src="js/components/Plot.js"></script>
+    <script src="js/components/Era.js"></script>
+
+    <!-- Minigames -->
+    <script src="js/minigames/PrehistoryMinigame.js"></script>
+    <script src="js/minigames/RomeMinigame.js"></script>
+    <script src="js/minigames/FutureMinigame.js"></script>
+
+    <!-- Data -->
+    <script src="js/data/plants.js"></script>
+    <script src="js/data/eras.js"></script>
+    <script src="js/achievements.js"></script>
+    <script src="js/animals.js"></script>
+
+    <!-- Main -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
